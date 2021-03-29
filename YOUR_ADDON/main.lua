@@ -97,8 +97,7 @@ end)({
 -- * You should access saved settings by using db[key]
 -- * Don't put frame handles or other widget references in here, 
 --   just strings, numbers and booleans.
-local db = (function(db) _G[Addon.."_DB"] = db; return db end)()
-({
+local db = (function(db) _G[Addon.."_DB"] = db; return db end)({
 
 })
 
