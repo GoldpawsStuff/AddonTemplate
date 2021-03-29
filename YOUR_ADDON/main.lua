@@ -78,6 +78,43 @@ end)({
 -- * Note that you MUST include a full table for your primary/default locale!
 }, "enUS") 
 
+-- Lua API
+-----------------------------------------------------------
+-- Upvalue any lua functions used here.
+
+
+-- WoW API
+-----------------------------------------------------------
+-- Upvalue any WoW functions used here.
+
+
+-- Your default settings.
+-----------------------------------------------------------
+-- These are the default settings when first installing the addon.
+-- * Note that anything changed will be saved to disk
+--   when you reload the user interface, or exit the game.
+-- * Don't put frames in here, just tables, strings, numbers and booleans.
+local DB = {
+
+}
+-- Assign the global name from 
+-- the addon toc file to our defaults table.
+_G[ADDON.."_DB"] = DB
+
+-- Utility
+-----------------------------------------------------------
+-- Add utility functions like 
+-- time formatting and similar here.
+
+
+-- Callbacks
+-----------------------------------------------------------
+-- Add functions called multiple times 
+-- by your reactive addon code here.
+
+
+-- Addon Core
+-----------------------------------------------------------
 -- Your event handler.
 -- Any events you add should be handled here.
 Private.OnEvent = function(self, event, ...)
