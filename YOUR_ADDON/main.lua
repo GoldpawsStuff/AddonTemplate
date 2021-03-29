@@ -24,7 +24,7 @@
 
 --]]
 -- Retrive addon folder name, and our local, private namespace.
-local ADDON, Private = ...
+local Addon, Private = ...
 
 -- Localization system.
 -----------------------------------------------------------
@@ -91,20 +91,16 @@ end)({
 
 -- Your default settings.
 -----------------------------------------------------------
--- These are the default settings when first installing the addon.
 -- Note that anything changed will be saved to disk
 -- when you reload the user interface, or exit the game,
 -- and those saved changes will override your defaults here.
+-- * You should access saved settings by using db[key]
 -- * Don't put frame handles or other widget references in here, 
 --   just strings, numbers and booleans.
--- * You should access saved settings by using DB[key], 
---   do not reference the global value directly!
-local DB = {
+local db = (function(db) _G[Addon.."_DB"] = db; return db end)()
+({
 
-}
--- Assign the global name from the ## SavedVariables entry 
--- in your addon's toc (table of contents) file to our defaults table.
-_G[ADDON.."_DB"] = DB
+})
 
 
 -- Utility Functions
@@ -178,7 +174,7 @@ end
 			-- Nothing happens before this has fired for your addon.
 			-- When it fires, we remove the event listener 
 			-- and call our initialization method.
-			if ((...) == ADDON) then
+			if ((...) == Addon) then
 				-- Delete our initial registration of this event.
 				-- Note that you are free to re-register it in any of the 
 				-- addon namespace methods. 
