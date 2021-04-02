@@ -142,17 +142,35 @@ end
 	-- Private Default API
 	-- This mostly contains methods we always want available
 	-----------------------------------------------------------
-	-- Proxy event registering to the addon namespace.
-	Private.RegisterEvent = function(_, ...) self:RegisterEvent(...) end
-	Private.RegisterUnitEvent = function(_, ...) self:RegisterUnitEvent(...) end
-	Private.UnregisterEvent = function(_, ...) self:UnregisterEvent(...) end
-	Private.UnregisterAllEvents = function(_, ...) self:UnregisterAllEvents(...) end
-	Private.IsEventRegistered = function(_, ...) self:IsEventRegistered(...) end
+	-- Parse chat input arguments 
+	local parse = function(msg)
+		msg = string.gsub(msg, "^%s+", "") -- Remove spaces at the start.
+		msg = string.gsub(msg, "%s+$", "") -- Remove spaces at the end.
+		msg = string.gsub(msg, "%s+", " ") -- Replace all space characters with single spaces.
+		if (string.find(msg, "%s")) then
+			return string.split(" ", msg) -- If multiple arguments exist, split them into separate return values.
+		else
+			return msg
+		end
+	end 
+
+	-- This methods lets you register a chat command, and a callback function or private method name.
+	-- Your callback will be called as callback(Private, editBox, commandName, ...) where (...) are all the input parameters.
+	Private.RegisterChatCommand = function(_, command, callback)
+		command = string.gsub(command, "^\\", "") -- Remove any backslash at the start.
+		command = string.lower(command) -- Make it lowercase, keep it case-insensitive.
+		local name = string.upper(Addon.."_CHATCOMMAND_"..command) -- Create a unique uppercase name for the command.
+		_G["SLASH_"..name.."1"] = "/"..command -- Register the chat command, keeping it lowercase.
+		SlashCmdList[name] = function(msg, editBox)
+			(Private[callback] or callback)(Private, editBox, command, parse(string.lower(msg)))
+		end 
+	end
+
 	-- This method lets you check if an addon WILL be loaded regardless of whether or not it currently is. 
 	-- This is useful if you want to check if an addon interacting with yours is enabled. 
 	-- My philosophy is that it's best to avoid addon dependencies in the toc file, 
 	-- unless your addon is a plugin to another addon, that is.
-	Private.IsAddOnEnabled = function(self, addon)
+	Private.IsAddOnEnabled = function(_, addon)
 		for i = 1,GetNumAddOns() do
 			if (string.lower((GetAddOnInfo(i))) == string.lower(addon)) then
 				if (GetAddOnEnableState(UnitName("player"), i) ~= 0) then
@@ -161,6 +179,17 @@ end
 			end
 		end
 	end
+
+	-- Event API
+	-----------------------------------------------------------
+	-- Proxy event registering to the addon namespace.
+	-- The 'self' within these should refer to our proxy frame,
+	-- which has been passed to this environment method as the 'self'.
+	Private.RegisterEvent = function(_, ...) self:RegisterEvent(...) end
+	Private.RegisterUnitEvent = function(_, ...) self:RegisterUnitEvent(...) end
+	Private.UnregisterEvent = function(_, ...) self:UnregisterEvent(...) end
+	Private.UnregisterAllEvents = function(_, ...) self:UnregisterAllEvents(...) end
+	Private.IsEventRegistered = function(_, ...) self:IsEventRegistered(...) end
 
 	-- Event Dispatcher and Initialization Handler
 	-----------------------------------------------------------
