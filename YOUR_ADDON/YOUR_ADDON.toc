@@ -8,4 +8,4 @@
 ## SavedVariables: YOUR_ADDON_DB
 ## X-License: MIT
 
-main.lua
+Main.lua
