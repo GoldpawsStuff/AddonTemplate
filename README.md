@@ -3,9 +3,7 @@
 # AddonTemplate
 Template for small, simple standalone addons for World of Warcraft.  
 
-To use this as a base for your own addons, you can either fork it, import it into your own user area or organization here on GitHub, or use it as a template. I do however _not_ recommend the template option, as only the two former will allow you to add this original as a remote in your project, and thus import any updates or changes from here directly. The best option is the GitHub import option, and you should choose the intended project name as you import, and then follow the guide below to further tailor it to your own project. 
-
-If you're not familier with git, well then it sucks to be you and copypasting is your only option!  
+To use this as a base for your own addons, use it as a template or use the GitHub import option and choose the intended project name as you import, and then follow the guide below to further tailor it to your own project. Alternatively you can download a zip manually and just start from there.  
 
 Good luck and have fun!  
 
