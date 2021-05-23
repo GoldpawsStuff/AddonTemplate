@@ -218,14 +218,35 @@ end
 		end 
 	end
 
+	Private.GetAddOnInfo = function(self, index)
+		local name, title, notes, loadable, reason, security, newVersion = GetAddOnInfo(index)
+		local enabled = not(GetAddOnEnableState(UnitName("player"), index) == 0) 
+		return name, title, notes, enabled, loadable, reason, security
+	end
+
+	-- Check if an addon exists in the addon listing and loadable on demand
+	Private.IsAddOnLoadable = function(self, target, ignoreLoD)
+		local target = string.lower(target)
+		for i = 1,GetNumAddOns() do
+			local name, title, notes, enabled, loadable, reason, security = self:GetAddOnInfo(i)
+			if string.lower(name) == target then
+				if loadable or ignoreLoD then
+					return true
+				end
+			end
+		end
+	end
+
 	-- This method lets you check if an addon WILL be loaded regardless of whether or not it currently is. 
 	-- This is useful if you want to check if an addon interacting with yours is enabled. 
 	-- My philosophy is that it's best to avoid addon dependencies in the toc file, 
 	-- unless your addon is a plugin to another addon, that is.
-	Private.IsAddOnEnabled = function(_, addon)
+	Private.IsAddOnEnabled = function(self, target)
+		local target = string.lower(target)
 		for i = 1,GetNumAddOns() do
-			if (string.lower((GetAddOnInfo(i))) == string.lower(addon)) then
-				if (GetAddOnEnableState(UnitName("player"), i) ~= 0) then
+			local name, title, notes, enabled, loadable, reason, security = self:GetAddOnInfo(i)
+			if string.lower(name) == target then
+				if enabled and loadable then
 					return true
 				end
 			end
