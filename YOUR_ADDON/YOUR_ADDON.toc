@@ -1,4 +1,4 @@
-## Interface: 90005
+## Interface: 90100
 ## Name: YOUR_ADDON
 ## Title: YOUR_ADDON
 ## Author: YOUR_NAME
