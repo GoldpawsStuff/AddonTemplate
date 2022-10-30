@@ -17,6 +17,6 @@ trim_trailing_whitespace = true
 trim_trailing_whitespace = false
 
 # must be spaces for the packager
-[.pkgmeta]
+[{*.yml,*.yaml,.pkgmeta}]
 indent_style = space
 indent_size = 4
