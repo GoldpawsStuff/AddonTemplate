@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 20504
 ## Name: YOUR_ADDON
 ## Title: YOUR_ADDON
 ## Author: YOUR_NAME
