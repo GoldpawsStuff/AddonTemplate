@@ -167,26 +167,35 @@ end
 	-- Private Default API
 	-- This mostly contains methods we always want available
 	-----------------------------------------------------------
-	local currentClientPatch, currentClientBuild = GetBuildInfo()
-	currentClientBuild = tonumber(currentClientBuild)
+	local version, build, build_date, toc_version = GetBuildInfo()
 
 	-- Let's create some constants for faster lookups
-	local MAJOR,MINOR,PATCH = string.split(".", currentClientPatch)
+	local MAJOR, MINOR, PATCH = string.split(".", version)
+	MAJOR = tonumber(MAJOR)
 
 	-- These are defined in FrameXML/BNet.lua
 	-- *Using blizzard constants if they exist,
 	-- using string parsing as a fallback.
-	Private.IsClassic = (WOW_PROJECT_ID) and (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (tonumber(MAJOR) == 1)
-	Private.IsRetail = (WOW_PROJECT_ID) and (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) or (tonumber(MAJOR) >= 9)
-	Private.IsClassicTBC = tonumber(MAJOR) == 2
-	Private.IsRetailBFA = tonumber(MAJOR) == 8
-	Private.IsRetailShadowlands = tonumber(MAJOR) == 9
-	Private.CurrentClientBuild = currentClientBuild -- Expose the build number too
+	Private.IsClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or (MAJOR == 1)
+	Private.IsTBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) or (MAJOR == 2)
+	Private.IsWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC) or (MAJOR == 3)
+	Private.IsRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) or (MAJOR >= 9)
+	Private.IsDragonflight = (MAJOR == 10)
+
+	-- Store major, minor and build.
+	Private.ClientMajor = MAJOR
+	Private.ClientMinor = tonumber(MINOR)
+	Private.ClientBuild = tonumber(build)
 
 	-- Set a relative subpath to look for media files in.
 	local Path
 	Private.SetMediaPath = function(self, path)
 		Path = path
+	end
+
+	-- Should mostly be used for debugging
+	Private.Print = function(self, ...)
+		print("|cff33ff99"..Addon..":|r", ...)
 	end
 
 	-- Simple API calls to retrieve a media file.
