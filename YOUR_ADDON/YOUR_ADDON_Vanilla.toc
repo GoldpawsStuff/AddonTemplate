@@ -1,11 +1,18 @@
 ## Interface: 11403
-## Name: YOUR_ADDON
+
 ## Title: YOUR_ADDON
+## Notes: YOUR_DESC
 ## Author: YOUR_NAME
-## Notes: Your addon's description
-## Version: 1.0-Alpha
+## Version: @project-version@
+## X-Date: @project-date-iso@
+
 ## DefaultState: Enabled
 ## SavedVariables: YOUR_ADDON_DB
+
 ## X-License: MIT
+## X-Category: Interface Enhancements
+
+## X-Curse-Project-ID: 
+## X-Wago-ID: 
 
 Main.lua
