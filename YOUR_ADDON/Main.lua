@@ -26,6 +26,27 @@
 -- Retrive addon folder name, and our local, private namespace.
 local Addon, Private = ...
 
+
+-- Lua API
+-----------------------------------------------------------
+-- Upvalue any lua functions used here.
+local _G = _G
+local pairs = pairs
+local tonumber = tonumber
+local string_gsub = string.gsub
+local string_find = string.find
+
+
+-- WoW API
+-----------------------------------------------------------
+-- Upvalue any WoW functions used here.
+local GetLocale = _G.GetLocale
+local GetBuildInfo = _G.GetBuildInfo
+local GetAddOnInfo = _G.GetAddOnInfo
+local GetNumAddOns = _G.GetNumAddOns
+local GetAddOnEnableState = _G.GetAddOnEnableState
+
+
 -- Localization system.
 -----------------------------------------------------------
 -- Do not modify the function, 
@@ -76,17 +97,7 @@ end)({
 -- The primary/default locale of your addon.
 -- * You should change this code to your default locale.
 -- * Note that you MUST include a full table for your primary/default locale!
-}, "enUS") 
-
-
--- Lua API
------------------------------------------------------------
--- Upvalue any lua functions used here.
-
-
--- WoW API
------------------------------------------------------------
--- Upvalue any WoW functions used here.
+}, "enUS")
 
 
 -- Your default settings.
@@ -193,10 +204,10 @@ end
 
 	-- Parse chat input arguments 
 	local parse = function(msg)
-		msg = string.gsub(msg, "^%s+", "") -- Remove spaces at the start.
-		msg = string.gsub(msg, "%s+$", "") -- Remove spaces at the end.
-		msg = string.gsub(msg, "%s+", " ") -- Replace all space characters with single spaces.
-		if (string.find(msg, "%s")) then
+		msg = string_gsub(msg, "^%s+", "") -- Remove spaces at the start.
+		msg = string_gsub(msg, "%s+$", "") -- Remove spaces at the end.
+		msg = string_gsub(msg, "%s+", " ") -- Replace all space characters with single spaces.
+		if (string_find(msg, "%s")) then
 			return string.split(" ", msg) -- If multiple arguments exist, split them into separate return values.
 		else
 			return msg
@@ -206,7 +217,7 @@ end
 	-- This methods lets you register a chat command, and a callback function or private method name.
 	-- Your callback will be called as callback(Private, editBox, commandName, ...) where (...) are all the input parameters.
 	Private.RegisterChatCommand = function(_, command, callback)
-		command = string.gsub(command, "^\\", "") -- Remove any backslash at the start.
+		command = string_gsub(command, "^\\", "") -- Remove any backslash at the start.
 		command = string.lower(command) -- Make it lowercase, keep it case-insensitive.
 		local name = string.upper(Addon.."_CHATCOMMAND_"..command) -- Create a unique uppercase name for the command.
 		_G["SLASH_"..name.."1"] = "/"..command -- Register the chat command, keeping it lowercase.
