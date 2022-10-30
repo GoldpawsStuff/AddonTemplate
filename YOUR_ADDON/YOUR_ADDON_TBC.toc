@@ -1,4 +1,4 @@
-## Interface: 100000
+## Interface: 20504
 
 ## Title: YOUR_ADDON
 ## Notes: YOUR_DESC
